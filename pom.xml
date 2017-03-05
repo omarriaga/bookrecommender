@@ -69,14 +69,14 @@
             <version>0.9</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.mahout</groupId>
-            <artifactId>mahout-taste-webapp</artifactId>
-            <version>0.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>4.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-taste-webapp</artifactId>
+            <version>0.5</version>
         </dependency>
     </dependencies>
 
