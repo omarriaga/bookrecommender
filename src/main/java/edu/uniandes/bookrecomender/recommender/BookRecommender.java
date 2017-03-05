@@ -5,8 +5,10 @@
  */
 package edu.uniandes.bookrecomender.recommender;
 
-
-import org.apache.mahout.cf.taste.model.JDBCDataModel;
+import java.io.File;
+import java.io.IOException;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.model.DataModel;
 
 /**
  *
@@ -15,7 +17,12 @@ import org.apache.mahout.cf.taste.model.JDBCDataModel;
 public class BookRecommender {
     
     public void init(){
-        //JDBCDataModel model = new 
+        try {
+            DataModel model = new FileDataModel(new File(""));
+            
+        } catch (IOException ex) {
+            //Logger.getLogger(BookRecommender.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
            
     
