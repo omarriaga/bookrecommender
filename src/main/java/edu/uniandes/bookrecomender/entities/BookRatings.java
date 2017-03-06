@@ -14,6 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "BookRatings.findByBookRating", query = "SELECT b FROM BookRatings b WHERE b.bookRating = :bookRating")})
 public class BookRatings implements Serializable {
 
+    
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected BookRatingsPK bookRatingsPK;
@@ -37,6 +40,9 @@ public class BookRatings implements Serializable {
     @NotNull
     @Column(name = "book_rating")
     private int bookRating;
+    @Column(name = "books_id")
+    private Integer booksId;
+    
 
     public BookRatings() {
     }
@@ -94,5 +100,13 @@ public class BookRatings implements Serializable {
     public String toString() {
         return "edu.uniandes.bookrecomender.entities.BookRatings[ bookRatingsPK=" + bookRatingsPK + " ]";
     }
-    
+
+    public Integer getBooksId() {
+        return booksId;
+    }
+
+    public void setBooksId(Integer booksId) {
+        this.booksId = booksId;
+    }
+
 }

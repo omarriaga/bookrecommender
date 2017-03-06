@@ -1,14 +1,61 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        <h:form id="users">
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                <p:outputLabel for="data" value="Tipo de data" />
+                <p:selectOneRadio id="data" value="#{homeController.type}" >
+                    <f:selectItem itemLabel="Training" itemValue="1"  />
+                    <f:selectItem itemLabel="Test" itemValue="2" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
+                <p:outputLabel for="recomendacion" value="Tipo de recomendación" />
+                <p:selectOneRadio id="recomendacion" value="#{homeController.based}" >
+                    <f:selectItem itemLabel="Basado en Usuario" itemValue="1"  />
+                    <f:selectItem itemLabel="Basado en Items" itemValue="2" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
+                <p:outputLabel for="console" value="Similaridad" />
+                <p:selectOneRadio id="console" value="#{homeController.option}" >
+                    <f:selectItem itemLabel="Coeficiente de Pearson" itemValue="1"  />
+                    <f:selectItem itemLabel="Medida Coseno" itemValue="2" />
+                    <f:selectItem itemLabel="indice de jaccard" itemValue="3" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
+                <p:outputLabel for="user" value="Usuario" />
+                <p:inputText value="#{homeController.user_id}" id="user"/>
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
+                <p:commandButton value="Recomendar" actionListener="#{homeController.sendRecommend()}" update="books" />
+            </h:panelGrid>
+            <p:dataGrid var="book" value="#{homeController.books}" columns="3"
+                        rows="12" paginator="true" id="books"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Recomendaciones
+                </f:facet>
+                <p:panel header="#{book.bookTitle}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:graphicImage url="#{book.imageUrlM}"/> 
+                        <h:outputText value="Autor: #{book.bookAuthor}" />
+                        <h:outputText value="Publicador: #{book.publisher}" />
+                        <h:outputText value="ISBN: #{book.isbn}" />
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+        </h:form>
     </h:body>
 </html>
 
