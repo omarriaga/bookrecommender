@@ -5,8 +5,6 @@
  */
 package edu.uniandes.bookrecomender.recommender;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +18,6 @@ import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
-import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.PostgreSQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
@@ -106,6 +103,14 @@ public class BookRecommender {
             System.out.println("Boom!!! recomendacion");
             Logger.getLogger(BookRecommender.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+    public float predict(long user, long item){
+        try {
+            return recommender.estimatePreference(user, item);
+        } catch (TasteException ex) {
+            Logger.getLogger(BookRecommender.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
     }
 

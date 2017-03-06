@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Books.findByImageUrlL", query = "SELECT b FROM Books b WHERE b.imageUrlL = :imageUrlL")})
 public class Books implements Serializable {
 
+    
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,6 +45,8 @@ public class Books implements Serializable {
     @Size(min = 1, max = 13)
     @Column(name = "isbn")
     private String isbn;
+    @Column(name = "books_id")
+    private Integer booksId;
     @Size(max = 255)
     @Column(name = "book_title")
     private String bookTitle;
@@ -158,6 +162,14 @@ public class Books implements Serializable {
     @Override
     public String toString() {
         return "edu.uniandes.bookrecomender.entities.Books[ isbn=" + isbn + " ]";
+    }
+
+    public Integer getBooksId() {
+        return booksId;
+    }
+
+    public void setBooksId(Integer booksId) {
+        this.booksId = booksId;
     }
     
 }

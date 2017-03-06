@@ -6,11 +6,22 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Sistemas de recomendacion</title>
     </h:head>
     <h:body>
+        <p:dialog modal="true" widgetVar="statusDialog" 
+                  footer="Por favor espere" 
+                  header="Cargando" 
+                  draggable="false" 
+                  closable="false" 
+                  resizable="false">  
+            <div style="text-align: center;">
+                <p:graphicImage library="img" name="load.gif" height="200" width="200" />                                         
+            </div>                                        
+        </p:dialog>  
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" /> 
         <h:form id="users">
-            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
                 <p:outputLabel for="data" value="Tipo de data" />
                 <p:selectOneRadio id="data" value="#{homeController.type}" >
                     <f:selectItem itemLabel="Training" itemValue="1"  />
@@ -37,9 +48,10 @@
                 <p:inputText value="#{homeController.user_id}" id="user"/>
             </h:panelGrid>
             <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">
-                <p:commandButton value="Recomendar" actionListener="#{homeController.sendRecommend()}" update="books" />
+                <p:commandButton value="Recomendar" actionListener="#{homeController.sendRecommend()}" update="books" ajax="true" />
+                <p:commandButton value="Predecir" onclick="PF('modal').show()" type="button" />
             </h:panelGrid>
-            <p:dataGrid var="book" value="#{homeController.books}" columns="3"
+            <p:dataGrid var="book" value="#{homeController.books_recommended}" columns="3"
                         rows="12" paginator="true" id="books"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,16">
@@ -56,6 +68,27 @@
                 </p:panel>
             </p:dataGrid>
         </h:form>
+        <p:dialog id="modal" widgetVar="modal" modal="true"
+                  header="Prediccion" resizable="false">
+            <h:form id="cedform">
+                <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+                <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5" >
+                    <p:outputLabel for="user_pred" value="Usuario" />
+                    <p:inputText id="user_pred"  value="#{homeController.user_id}" 
+                                 style="width: 300px;" required="true" />
+                    <p:outputLabel for="items" value="Items" />
+                    <p:autoComplete id="items" value="#{homeController.book_selected}" completeMethod="#{homeController.completeBooks}"
+                                    var="b" itemLabel="#{b.bookTitle}" itemValue="#{b}" converter="bookConverter"  forceSelection="true" />
+                    <p:outputLabel for="preference" value="Rating Estimado"/>
+                    <h:outputText id="preference" value="#{homeController.estimatedPreference}" />
+                    <p:commandButton  id="decline" value="Cancelar" onclick="PF('modal').hide();" type="button"/>
+                    <p:commandButton value="Generar Prediccion" ajax="true" process="cedform" 
+                                     actionListener="#{homeController.sendPredict()}"
+                                     update="preference"
+                                     />   
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 

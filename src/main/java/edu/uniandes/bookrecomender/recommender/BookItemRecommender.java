@@ -16,13 +16,11 @@ import javax.sql.DataSource;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.PostgreSQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.UncenteredCosineSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
-import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 
@@ -93,6 +91,15 @@ public class BookItemRecommender {
             System.out.println("Boom!!! recomendacion");
             Logger.getLogger(BookRecommender.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }
+    }
+    
+    public float predict(long user, long item){
+        try {
+            return recommender.estimatePreference(user, item);
+        } catch (TasteException ex) {
+            Logger.getLogger(BookRecommender.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
     }
 

@@ -42,6 +42,15 @@ public class SessionController {
             return bookItemRecommender.recommend(user);
         }
     }
+    
+    public float generatePrediction(long user, long item, int based){
+        if(based == 1){
+            System.out.println("Entro a user");
+            return bookRecommender.predict(user, item);
+        }else{
+            return bookItemRecommender.predict(user, item);
+        }
+    }
 
     public BookRecommender getBookRecommender() {
         return bookRecommender;
